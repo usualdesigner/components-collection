@@ -24,6 +24,9 @@ var ComponentCollection = (function () {
         components = [];
 
     componentHandlers.test1 = function (element) {
+        element.click(function () {
+            console.log('clicked');
+        });
         element.html(_.now());
     };
     componentHandlers.test2 = function (element) {
@@ -35,13 +38,13 @@ var ComponentCollection = (function () {
 
     function initialize() {
 
-        var elements = $(CORE_SELECTOR).find('[' + DATA_REQUIRED_ATTRIBUTE + ']');
+        var $wrapperElement = $(CORE_SELECTOR),
+            elements = $wrapperElement.find('[' + DATA_REQUIRED_ATTRIBUTE + ']');
         _.forEach(elements, function (element) {
             var componentArray = $(element).attr(DATA_REQUIRED_ATTRIBUTE).split(' ');
             _.forEach(componentArray, function (componentName) {
                 if (_.has(componentHandlers, componentName)) {
                     if (_.isFunction(componentHandlers[componentName])) {
-                        //_.bind(componentHandlers[componentName], $(element));
                         componentHandlers[componentName]($(element));
                         console.info("Component has been loaded");
                     }
@@ -50,26 +53,11 @@ var ComponentCollection = (function () {
                 }
             });
         });
+        $wrapperElement.addClass('component-collection-initialized');
     }
 
-    initialize();
-
-    function getComponents() {
-
-        //
-
-    }
-
-    function setComponents() {
-
-        //
-
-    }
-
-    function loadComponents() {
-
-        //
-
-    }
+    return {
+        initialize: initialize
+    };
 
 })();
