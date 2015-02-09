@@ -12,7 +12,9 @@
 
 <div class="container">
     <div class="c1" data-component-required="test1 test11"></div>
-    <div class="c1" data-component-required="test2 test22"></div>
+    <div class="c1" data-component-required="test2 test22">
+        <button class="btn">Button</button>
+    </div>
     <div class="c1" data-component-required="test3"></div>
 </div>
 
@@ -26,15 +28,17 @@
     });
     ComponentCollection.createComponent('test11', function (element) {
         element.on('click', function(){
-            alert('clicked');
+            console.log(element);
         });
     });
     ComponentCollection.createComponent('test2', function (element) {
-        element.html(_.now());
+        element.find('button').on('click', function(){
+            alert('button clicked');
+        });
     });
     ComponentCollection.createComponent('test22', function (element) {
         element.on('click', function(){
-            alert('another clicked');
+            alert('element clicked');
         });
     });
     ComponentCollection.createComponent('test3', function (element) {
