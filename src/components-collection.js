@@ -29,6 +29,11 @@ var ComponentCollection = (function () {
         });
         element.html(_.now());
     };
+    componentHandlers.test11 = function (element) {
+        element.click(function () {
+            console.log('another clicked');
+        });
+    };
     componentHandlers.test2 = function (element) {
         element.html(_.now());
     };
@@ -37,7 +42,6 @@ var ComponentCollection = (function () {
     };
 
     function initialize() {
-
         var $wrapperElement = $(CORE_SELECTOR),
             elements = $wrapperElement.find('[' + DATA_REQUIRED_ATTRIBUTE + ']');
         _.forEach(elements, function (element) {
@@ -45,8 +49,21 @@ var ComponentCollection = (function () {
             _.forEach(componentArray, function (componentName) {
                 if (_.has(componentHandlers, componentName)) {
                     if (_.isFunction(componentHandlers[componentName])) {
-                        componentHandlers[componentName]($(element));
-                        console.info("Component has been loaded");
+
+                        if ($(element).attr(DATA_LOADED_ATTRIBUTE))
+                            var loadedComponents = $(element).attr(DATA_LOADED_ATTRIBUTE).split(' ');
+                        else
+                            var loadedComponents = [];
+                        if (loadedComponents.indexOf(componentName) > 0) {
+                            console.warn(componentName + " already loaded");
+                        } else {
+                            componentHandlers[componentName]($(element));
+                            loadedComponents.push(componentName);
+                            $(element).attr(DATA_LOADED_ATTRIBUTE, loadedComponents.join(' '));
+                            console.info("Component " + componentName + " has been loaded");
+                        }
+                    } else {
+                        console.warn(componentName + " is not a function");
                     }
                 } else {
                     console.warn("Can't load component '" + componentName + "'");
