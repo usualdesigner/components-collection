@@ -21,7 +21,16 @@
 <script src="../../src/components-collection.js"></script>
 
 <script>
-    ComponentCollection.initialize();
+    ComponentCollection.createComponent('test1', function (element) {
+        element.html(_.now());
+    });
+    ComponentCollection.createComponent('test2', function (element) {
+        element.html(_.now());
+    });
+    ComponentCollection.createComponent('test3', function (element) {
+        element.html(_.now());
+    });
+    ComponentCollection.bindComponents($('.container'));
 </script>
 
 </body>
