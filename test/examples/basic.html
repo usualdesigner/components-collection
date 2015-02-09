@@ -24,8 +24,18 @@
     ComponentCollection.createComponent('test1', function (element) {
         element.html(_.now());
     });
+    ComponentCollection.createComponent('test11', function (element) {
+        element.on('click', function(){
+            alert('clicked');
+        });
+    });
     ComponentCollection.createComponent('test2', function (element) {
         element.html(_.now());
+    });
+    ComponentCollection.createComponent('test22', function (element) {
+        element.on('click', function(){
+            alert('another clicked');
+        });
     });
     ComponentCollection.createComponent('test3', function (element) {
         element.html(_.now());
